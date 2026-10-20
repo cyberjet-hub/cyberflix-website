@@ -1,111 +1,108 @@
-const STORAGE_KEY = "cyberflix_user";
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cyberflix | Sign In</title>
+    <meta name="description" content="Netflix-inspired Cyberflix sign in and sign up page." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body class="auth-page-body">
+    <div class="auth-shell">
+      <aside class="auth-visual">
+        <div class="auth-visual-content">
+          <div class="auth-brand">C<span>yber</span>Flix</div>
+          <div class="auth-copy">
+            <span class="badge">New season</span>
+            <h1>Watch the stories everyone is talking about.</h1>
+            <p>
+              Discover thrillers, romance, sci-fi, and award-winning original series all in one place.
+            </p>
+          </div>
+        </div>
+      </aside>
 
-const authTabs = document.querySelectorAll(".auth-toggle button");
-const authForms = {
-  login: document.getElementById("loginForm"),
-  signup: document.getElementById("signupForm")
-};
-const message = document.getElementById("authMessage");
+      <main class="auth-panel">
+        <div class="auth-box">
+          <div class="logo" aria-label="Cyberflix home">C<span>yber</span>Flix</div>
 
-function setMessage(text, isError = false) {
-  if (!message) return;
-  message.textContent = text;
-  message.style.color = isError ? "#ffd7d9" : "#d8ffe6";
-}
+          <div class="auth-toggle" role="tablist" aria-label="Authentication tabs">
+            <button class="active" type="button" data-tab="login" aria-selected="true">Sign In</button>
+            <button type="button" data-tab="signup" aria-selected="false">Sign Up</button>
+          </div>
 
-function saveUser(user) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
-}
+          <div id="authMessage" aria-live="polite"></div>
 
-function getUser() {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY));
-  } catch {
-    return null;
-  }
-}
+          <form id="loginForm" class="auth-form-stack">
+            <h2>Welcome back</h2>
+            <p class="subtext">Ready to continue your next binge?</p>
 
-function setActiveTab(tab) {
-  authTabs.forEach((button) => {
-    const active = button.dataset.tab === tab;
-    button.classList.toggle("active", active);
-    button.setAttribute("aria-selected", String(active));
-  });
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" placeholder="name@example.com" required />
+            </label>
 
-  authForms.login.classList.toggle("hidden", tab !== "login");
-  authForms.signup.classList.toggle("hidden", tab !== "signup");
-}
+            <label>
+              <span>Password</span>
+              <input type="password" name="password" placeholder="Enter your password" required />
+            </label>
 
-function handleLogin(event) {
-  event.preventDefault();
-  const form = event.currentTarget;
-  const email = form.email.value.trim();
-  const password = form.password.value;
+            <div class="auth-row">
+              <label class="remember">
+                <input type="checkbox" name="remember" checked />
+                <span>Remember me</span>
+              </label>
+              <a class="text-link" href="#">Need help?</a>
+            </div>
 
-  if (!email || !password) {
-    setMessage("Please fill in both email and password.", true);
-    return;
-  }
+            <button type="submit" class="primary-button auth-submit">Sign In</button>
 
-  const user = getUser();
-  if (!user || user.email.toLowerCase() !== email.toLowerCase() || user.password !== password) {
-    setMessage("No account matches those details. Please sign up first.", true);
-    return;
-  }
+            <div class="auth-divider">or continue with</div>
+            <div class="alt-auth">
+              <button type="button">Google</button>
+              <button type="button">Apple</button>
+            </div>
+          </form>
 
-  saveUser({ ...user, loggedIn: true });
-  setMessage("Login successful. Redirecting...");
-  setTimeout(() => {
-    window.location.href = "index.html";
-  }, 500);
-}
+          <form id="signupForm" class="auth-form-stack hidden">
+            <h2>Create your account</h2>
+            <p class="subtext">Start your Cyberflix experience today.</p>
 
-function handleSignup(event) {
-  event.preventDefault();
-  const form = event.currentTarget;
-  const name = form.name.value.trim();
-  const email = form.email.value.trim();
-  const password = form.password.value;
+            <label>
+              <span>Full name</span>
+              <input type="text" name="name" placeholder="Jane Doe" required />
+            </label>
 
-  if (!name || !email || !password) {
-    setMessage("Please complete all sign up fields.", true);
-    return;
-  }
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" placeholder="name@example.com" required />
+            </label>
 
-  if (password.length < 6) {
-    setMessage("Password must be at least 6 characters long.", true);
-    return;
-  }
+            <label>
+              <span>Password</span>
+              <input type="password" name="password" placeholder="At least 6 characters" required />
+            </label>
 
-  const existing = getUser();
-  const existingEmail = existing && existing.email && existing.email.toLowerCase() === email.toLowerCase();
-  if (existingEmail) {
-    setMessage("This email is already registered. Please log in instead.", true);
-    setActiveTab("login");
-    return;
-  }
+            <button type="submit" class="primary-button auth-submit">Create Account</button>
 
-  const newUser = {
-    name,
-    email,
-    password,
-    loggedIn: true
-  };
+            <div class="auth-divider">or join with</div>
+            <div class="alt-auth">
+              <button type="button">Google</button>
+              <button type="button">Apple</button>
+            </div>
+          </form>
 
-  saveUser(newUser);
-  setMessage("Account created successfully. Redirecting...");
-  setTimeout(() => {
-    window.location.href = "index.html";
-  }, 500);
-}
+          <p class="auth-bottom">
+            <span id="toggleCopy">New to Cyberflix?</span>
+            <a href="#" class="auth-switch-link">Sign up now</a>
+          </p>
+        </div>
+      </main>
+    </div>
 
-authTabs.forEach((button) => {
-  button.addEventListener("click", () => setActiveTab(button.dataset.tab));
-});
-
-authForms.login?.addEventListener("submit", handleLogin);
-authForms.signup?.addEventListener("submit", handleSignup);
-
-if (getUser()) {
-  setActiveTab("login");
-}
+    <script src="assets/js/auth.js"></script>
+  </body>
+</html>
