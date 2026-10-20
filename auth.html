@@ -1,0 +1,111 @@
+const STORAGE_KEY = "cyberflix_user";
+
+const authTabs = document.querySelectorAll(".auth-toggle button");
+const authForms = {
+  login: document.getElementById("loginForm"),
+  signup: document.getElementById("signupForm")
+};
+const message = document.getElementById("authMessage");
+
+function setMessage(text, isError = false) {
+  if (!message) return;
+  message.textContent = text;
+  message.style.color = isError ? "#ffd7d9" : "#d8ffe6";
+}
+
+function saveUser(user) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+}
+
+function getUser() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY));
+  } catch {
+    return null;
+  }
+}
+
+function setActiveTab(tab) {
+  authTabs.forEach((button) => {
+    const active = button.dataset.tab === tab;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-selected", String(active));
+  });
+
+  authForms.login.classList.toggle("hidden", tab !== "login");
+  authForms.signup.classList.toggle("hidden", tab !== "signup");
+}
+
+function handleLogin(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const email = form.email.value.trim();
+  const password = form.password.value;
+
+  if (!email || !password) {
+    setMessage("Please fill in both email and password.", true);
+    return;
+  }
+
+  const user = getUser();
+  if (!user || user.email.toLowerCase() !== email.toLowerCase() || user.password !== password) {
+    setMessage("No account matches those details. Please sign up first.", true);
+    return;
+  }
+
+  saveUser({ ...user, loggedIn: true });
+  setMessage("Login successful. Redirecting...");
+  setTimeout(() => {
+    window.location.href = "index.html";
+  }, 500);
+}
+
+function handleSignup(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const name = form.name.value.trim();
+  const email = form.email.value.trim();
+  const password = form.password.value;
+
+  if (!name || !email || !password) {
+    setMessage("Please complete all sign up fields.", true);
+    return;
+  }
+
+  if (password.length < 6) {
+    setMessage("Password must be at least 6 characters long.", true);
+    return;
+  }
+
+  const existing = getUser();
+  const existingEmail = existing && existing.email && existing.email.toLowerCase() === email.toLowerCase();
+  if (existingEmail) {
+    setMessage("This email is already registered. Please log in instead.", true);
+    setActiveTab("login");
+    return;
+  }
+
+  const newUser = {
+    name,
+    email,
+    password,
+    loggedIn: true
+  };
+
+  saveUser(newUser);
+  setMessage("Account created successfully. Redirecting...");
+  setTimeout(() => {
+    window.location.href = "index.html";
+  }, 500);
+}
+
+authTabs.forEach((button) => {
+  button.addEventListener("click", () => setActiveTab(button.dataset.tab));
+});
+
+authForms.login?.addEventListener("submit", handleLogin);
+authForms.signup?.addEventListener("submit", handleSignup);
+
+if (getUser()) {
+  setActiveTab("login");
+}

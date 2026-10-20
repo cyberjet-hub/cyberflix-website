@@ -29,8 +29,9 @@
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 3a7.5 7.5 0 015.9 12.8l4.1 4.1 1.4-1.4-4.1-4.1A7.5 7.5 0 1110.5 3zm0 2a5.5 5.5 0 100 11 5.5 5.5 0 000-11z"/></svg>
               <input id="searchInput" type="text" placeholder="Search movies" />
             </label>
-            <button class="ghost-button" id="openAuth">Sign In</button>
-            <div class="profile-pill">CF</div>
+            <a class="ghost-button auth-link" id="authLink" href="auth.html">Sign In</a>
+            <button class="ghost-button hidden" id="logoutBtn" type="button">Log out</button>
+            <div class="profile-pill" id="profilePill">CF</div>
           </div>
         </nav>
       </header>
@@ -116,47 +117,6 @@
             <button class="secondary-button" id="modalCloseBtn">Close</button>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="modal hidden" id="authModal" aria-hidden="true">
-      <div class="modal-backdrop" data-close-auth="true"></div>
-      <div class="auth-card" role="dialog" aria-modal="true" aria-labelledby="authTitle">
-        <button class="close-modal auth-close" aria-label="Close auth modal">×</button>
-        <div class="auth-tabs">
-          <button class="tab is-active" data-tab="signin">Sign In</button>
-          <button class="tab" data-tab="signup">Sign Up</button>
-        </div>
-
-        <form class="auth-form is-active" data-form="signin">
-          <h3 id="authTitle">Welcome back</h3>
-          <label>
-            <span>Email</span>
-            <input type="email" placeholder="you@example.com" />
-          </label>
-          <label>
-            <span>Password</span>
-            <input type="password" placeholder="••••••••" />
-          </label>
-          <button class="primary-button full-width" type="button">Sign In</button>
-        </form>
-
-        <form class="auth-form" data-form="signup">
-          <h3>Create your account</h3>
-          <label>
-            <span>Full name</span>
-            <input type="text" placeholder="Jane Doe" />
-          </label>
-          <label>
-            <span>Email</span>
-            <input type="email" placeholder="you@example.com" />
-          </label>
-          <label>
-            <span>Password</span>
-            <input type="password" placeholder="Create a password" />
-          </label>
-          <button class="primary-button full-width" type="button">Create Account</button>
-        </form>
       </div>
     </div>
 
