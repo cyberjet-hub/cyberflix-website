@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cyberflix | Accounts</title>
+    <meta name="description" content="Manage your Cyberflix profiles and subscription plans in UGX." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body class="accounts-body">
+    <header class="topbar">
+      <nav class="nav container">
+        <div class="nav-left">
+          <div class="logo" aria-label="Cyberflix home">C<span>yber</span>Flix</div>
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="accounts.html">Accounts</a></li>
+            <li><a href="index.html#catalogue">Catalogue</a></li>
+            <li><a href="index.html#my-list">My List</a></li>
+          </ul>
+        </div>
+
+        <div class="nav-right">
+          <a class="ghost-button" href="index.html">Back to Home</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="accounts-page container">
+      <section class="accounts-hero">
+        <div>
+          <span class="eyebrow">Manage Profiles</span>
+          <h1>Up to 4 accounts in one subscription.</h1>
+        </div>
+        <div class="account-limit-pill">
+          <span class="limit-label">Account limit</span>
+          <strong>4 / 4</strong>
+        </div>
+      </section>
+
+      <section class="profiles-section">
+        <div class="section-head-row">
+          <div class="section-header">
+            <h2>Your profiles</h2>
+          </div>
+          <button class="primary-button add-profile-btn" type="button">Add Profile</button>
+        </div>
+
+        <div class="profile-grid" id="profileGrid"></div>
+      </section>
+
+      <section class="plans-section">
+        <div class="section-header">
+          <h2>Payment plans</h2>
+        </div>
+
+        <div class="plans-grid" id="planGrid"></div>
+      </section>
+    </main>
+
+    <script src="assets/js/accounts.js"></script>
+  </body>
+</html>
